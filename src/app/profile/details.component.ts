@@ -2,12 +2,13 @@
 import { AccountService, BranchService } from '@app/_services';
 import { ActivityLog } from '@app/_models/activity-log.model';
 import { Branch } from '@app/_models';
+import { Account } from '@app/_models/account';  // Import Account model
 
 @Component({
     templateUrl: 'details.component.html'
 })
 export class DetailsComponent implements OnInit {
-    account = this.accountService.accountValue;
+    account: Account | null = null;  // Initialize as null
     activityLogs: ActivityLog[] = [];
     filteredLogs: ActivityLog[] = [];
     allActivityLogs: ActivityLog[] = [];
@@ -29,6 +30,7 @@ export class DetailsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.account = this.accountService.accountValue;  // Assign account after service is initialized
         if (this.account?.id) {
             this.getActivityLogs(this.account.id);
             if (this.account.BranchId) {
